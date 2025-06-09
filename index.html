@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>好好民宿</title>
+    <script src="https://cdn.kuse.ai/kuse_inner.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500&family=Zen+Kaku+Gothic+New:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #faf9f7;
+            --bg-secondary: #f5f3f0;
+            --text-primary: #4a4a4a;
+            --text-secondary: #6b6b6b;
+            --accent-color: #8b9a8e;
+            --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --border-radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', 'Zen Kaku Gothic New', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            display: block;
+            object-fit: cover;
+            box-shadow: var(--shadow-light);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 300;
+            color: var(--text-primary);
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .section {
+            background-color: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            transition: box-shadow 0.3s ease, transform 0.2s ease;
+        }
+
+        .section:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-align: center;
+            letter-spacing: 0.05em;
+        }
+
+        .iframe-container {
+            width: 100%;
+            height: 600px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+        }
+
+        .branding {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 8px 12px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        }
+
+        .branding:hover {
+            color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .branding svg {
+            height: 24px;
+            width: auto;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+
+            .container {
+                gap: 2rem;
+            }
+
+            .header {
+                padding: 1rem 0;
+            }
+
+            .logo {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 1.5rem;
+            }
+
+            .title {
+                font-size: 2.2rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .section {
+                padding: 1rem;
+            }
+
+            .iframe-container {
+                height: 500px;
+            }
+
+            .branding {
+                position: relative;
+                bottom: auto;
+                right: auto;
+                margin: 2rem auto 0;
+                width: fit-content;
+                background-color: var(--bg-secondary);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .iframe-container {
+                height: 450px;
+            }
+            
+            .section {
+                padding: 0.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <img src="https://imgur.com/925OqUB.png" alt="好好民宿 Logo" class="logo">
+            <h1 class="title">好好民宿</h1>
+        </header>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Google Calendar Section -->
+            <section class="section">
+                <h2 class="section-title">房間空房查詢</h2>
+                <div class="iframe-container">
+                    <iframe 
+                        src="https://calendar.google.com/calendar/u/0/embed?src=YnlsbWRhZGFAZ21haWwuY29t&ctz=Asia/Taipei"
+                        title="房間空房日曆"
+                        loading="lazy">
+                    </iframe>
+                </div>
+            </section>
+
+            <!-- Booking System Section -->
+            <section class="section">
+                <h2 class="section-title">線上報價系統</h2>
+                <div class="iframe-container">
+                    <iframe 
+                        src="https://bylmdada.github.io/haohao/"
+                        title="線上報價系統"
+                        loading="lazy">
+                    </iframe>
+                </div>
+            </section>
+        </main>
+
+        <!-- Branding -->
+        <div class="branding" onclick="window.open('https://kuse.ai', '_blank')" title="前往 Kuse.ai">
+            <span>made with</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 92 48">
+                <path fill="currentColor" d="M28.098 24.577c0 6.736-4.023 8.78-10.226 9.377s-9.66-4.691-9.865-10.419C7.8 17.808 12.32 13.062 18.233 14.16s9.865 3.683 9.865 10.418"></path>
+                <path fill="currentColor" fill-rule="evenodd" d="m61.87 26.672-1.18 1.896c1.067 1.083 2.904 1.896 5.217 1.896 3.425 0 5.172-1.603 5.172-3.882 0-2.796-2.625-3.407-4.756-3.904l-.007-.001c-1.475-.339-2.7-.632-2.7-1.513 0-.902.908-1.534 2.246-1.534 1.293 0 2.79.496 3.743 1.422l1.202-1.761c-1.18-1.106-2.835-1.783-4.922-1.783-2.836 0-4.786 1.648-4.786 3.724 0 2.646 2.44 3.22 4.54 3.715l.042.01c1.542.36 2.88.677 2.88 1.738 0 .902-.77 1.67-2.586 1.67-1.7 0-3.243-.813-4.105-1.693M48.07 17.785v7.562c0 3.047 1.86 5.124 5.67 5.124 3.789 0 5.672-2.055 5.672-5.147v-7.539h-2.495v7.359c0 1.918-1.135 3.16-3.176 3.16-2.064 0-3.176-1.242-3.176-3.16v-7.359zM46.941 30.2h-3.017l-4.31-5.124-1.043 1.151V30.2h-2.472V17.785h2.472v5.666l4.945-5.666h3.017l-5.33 5.869zm25.214-6.216c0-3.584 2.634-6.476 6.328-6.476 3.745 0 6.147 2.841 6.147 6.732v.64h-9.634c.207 1.87 1.627 3.405 3.978 3.405 1.214 0 2.66-.486 3.538-1.357l1.24 1.767c-1.24 1.177-3.074 1.792-5.062 1.792-3.746 0-6.535-2.586-6.535-6.503m6.329-4.27c-2.325 0-3.384 1.767-3.513 3.278h7.026c-.052-1.46-1.06-3.277-3.513-3.277" clip-rule="evenodd"></path>
+            </svg>
+        </div>
+    </div>
+
+    <script>
+        // 增強響應式體驗和無障礙功能
+        document.addEventListener(`DOMContentLoaded`, function() {
+            // Logo 載入錯誤處理
+            const logo = document.querySelector(`.logo`);
+            logo.addEventListener(`error`, function() {
+                this.style.display = `none`;
+                console.warn(`Logo 圖片載入失敗`);
+            });
+
+            // iframe 載入狀態監控
+            const iframes = document.querySelectorAll(`iframe`);
+            iframes.forEach(iframe => {
+                iframe.addEventListener(`load`, function() {
+                    this.style.opacity = `1`;
+                });
+                
+                iframe.addEventListener(`error`, function() {
+                    const container = this.parentElement;
+                    container.innerHTML = `<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text-secondary); font-size: 0.9rem;">載入中...</div>`;
+                });
+            });
+
+            // 視窗大小改變時的適應性調整
+            let resizeTimer;
+            window.addEventListener(`resize`, function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    // 確保 iframe 在視窗大小改變時正確重新渲染
+                    iframes.forEach(iframe => {
+                        const src = iframe.src;
+                        iframe.src = ``;
+                        setTimeout(() => {
+                            iframe.src = src;
+                        }, 100);
+                    });
+                }, 500);
+            });
+
+            // 平滑滾動增強
+            document.documentElement.style.scrollBehavior = `smooth`;
+
+            // 鍵盤導航支援
+            document.addEventListener(`keydown`, function(e) {
+                if (e.key === `Tab`) {
+                    document.body.classList.add(`keyboard-navigation`);
+                }
+            });
+
+            document.addEventListener(`mousedown`, function() {
+                document.body.classList.remove(`keyboard-navigation`);
+            });
+        });
+
+        // 效能優化：延遲載入非關鍵資源
+        if (`IntersectionObserver` in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const iframe = entry.target;
+                        if (iframe.dataset.src) {
+                            iframe.src = iframe.dataset.src;
+                            iframe.removeAttribute(`data-src`);
+                            observer.unobserve(iframe);
+                        }
+                    }
+                });
+            });
+
+            // 如果頁面內容很多，可以啟用延遲載入
+            // document.querySelectorAll('iframe').forEach(iframe => observer.observe(iframe));
+        }
+    </script>
+</body>
+</html>
