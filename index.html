@@ -1,12 +1,40 @@
-
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>好好民宿</title>
+    <title>好好民宿 | 線上訂房與空房查詢</title>
+    <meta name="description" content="好好民宿 — 提供舒適住宿體驗，線上即時查詢空房與報價，輕鬆完成訂房。">
+    <meta name="theme-color" content="#faf9f7">
+    <link rel="icon" href="https://imgur.com/925OqUB.png" type="image/png">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="好好民宿 | 線上訂房與空房查詢">
+    <meta property="og:description" content="好好民宿 — 提供舒適住宿體驗，線上即時查詢空房與報價，輕鬆完成訂房。">
+    <meta property="og:image" content="https://imgur.com/925OqUB.png">
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://calendar.google.com">
+    <link rel="dns-prefetch" href="https://bylmdada.github.io">
+    <link rel="dns-prefetch" href="https://i.imgur.com">
+
     <script src="https://cdn.kuse.ai/kuse_inner.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500&family=Zen+Kaku+Gothic+New:wght@300;400&display=swap" rel="stylesheet">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LodgingBusiness",
+        "name": "好好民宿",
+        "description": "好好民宿 — 提供舒適住宿體驗，線上即時查詢空房與報價。",
+        "image": "https://imgur.com/925OqUB.png"
+    }
+    </script>
+
     <style>
         :root {
             --bg-primary: #faf9f7;
@@ -16,7 +44,7 @@
             --accent-color: #8b9a8e;
             --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08);
             --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.12);
-            --border-radius: 1px;
+            --border-radius: 8px;
         }
 
         * {
@@ -32,6 +60,31 @@
             line-height: 1.6;
             min-height: 100vh;
             padding: 2rem 1rem;
+            scroll-behavior: smooth;
+        }
+
+        /* Skip to content link for accessibility */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 0;
+            padding: 0.5rem 1rem;
+            background: var(--accent-color);
+            color: #fff;
+            z-index: 100;
+            font-size: 0.9rem;
+            text-decoration: none;
+            border-radius: 0 0 var(--border-radius) 0;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* Keyboard navigation focus styles */
+        .keyboard-navigation *:focus {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
         }
 
         .container {
@@ -60,6 +113,20 @@
 
         .logo:hover {
             transform: scale(1.05);
+        }
+
+        .logo-fallback {
+            width: 120px;
+            height: 120px;
+            border-radius: 10%;
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-secondary);
+            box-shadow: var(--shadow-light);
+            font-size: 2.5rem;
+            color: var(--accent-color);
         }
 
         .title {
@@ -100,6 +167,7 @@
         }
 
         .iframe-container {
+            position: relative;
             width: 100%;
             height: 600px;
             border-radius: 12px;
@@ -114,6 +182,23 @@
             border-radius: 12px;
         }
 
+        .iframe-loading {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            background-color: var(--bg-secondary);
+            transition: opacity 0.3s ease;
+        }
+
+        .iframe-loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
         .branding {
             position: fixed;
             bottom: 20px;
@@ -123,12 +208,12 @@
             gap: 8px;
             font-size: 0.85rem;
             color: var(--text-secondary);
+            text-decoration: none;
             background-color: rgba(255, 255, 255, 0.9);
             padding: 8px 12px;
             border-radius: 20px;
             box-shadow: var(--shadow-light);
             transition: all 0.3s ease;
-            cursor: pointer;
             backdrop-filter: blur(10px);
         }
 
@@ -157,10 +242,15 @@
                 padding: 1rem 0;
             }
 
-            .logo {
+            .logo,
+            .logo-fallback {
                 width: 100px;
                 height: 100px;
                 margin-bottom: 1.5rem;
+            }
+
+            .logo-fallback {
+                font-size: 2rem;
             }
 
             .title {
@@ -195,11 +285,11 @@
             .iframe-container {
                 height: 450px;
             }
-            
+
             .section {
                 padding: 0.8rem;
             }
-            
+
             .section-title {
                 font-size: 1.1rem;
             }
@@ -207,23 +297,31 @@
     </style>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">跳至主要內容</a>
+
     <div class="container">
         <!-- Header Section -->
         <header class="header">
-            <img src="https://imgur.com/925OqUB.png" alt="好好民宿 Logo" class="logo">
+            <img src="https://imgur.com/925OqUB.png" alt="好好民宿 Logo" class="logo" width="120" height="120">
             <h1 class="title">好好民宿</h1>
         </header>
 
         <!-- Main Content -->
-        <main class="content">
+        <main id="main-content" class="content">
             <!-- Google Calendar Section -->
             <section class="section">
                 <h2 class="section-title">房間空房查詢</h2>
                 <div class="iframe-container">
-                    <iframe 
+                    <div class="iframe-loading" aria-hidden="true">載入中...</div>
+                    <iframe
                         src="https://calendar.google.com/calendar/u/0/embed?src=YnlsbWRhZGFAZ21haWwuY29t&ctz=Asia/Taipei"
                         title="房間空房日曆"
-                        loading="lazy">
+                        aria-label="Google 日曆 — 查看房間空房狀態"
+                        loading="lazy"
+                        width="600"
+                        height="600"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        sandbox="allow-scripts allow-same-origin allow-popups">
                     </iframe>
                 </div>
             </section>
@@ -232,97 +330,68 @@
             <section class="section">
                 <h2 class="section-title">線上報價系統</h2>
                 <div class="iframe-container">
-                    <iframe 
+                    <div class="iframe-loading" aria-hidden="true">載入中...</div>
+                    <iframe
                         src="https://bylmdada.github.io/haohao/"
                         title="線上報價系統"
-                        loading="lazy">
+                        aria-label="好好民宿線上報價系統"
+                        loading="lazy"
+                        width="600"
+                        height="600"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        sandbox="allow-scripts allow-same-origin allow-popups allow-forms">
                     </iframe>
                 </div>
             </section>
         </main>
 
         <!-- Branding -->
-        <div class="branding" onclick="window.open('https://kuse.ai', '_blank')" title="前往 Kuse.ai">
+        <a href="https://kuse.ai" target="_blank" rel="noopener noreferrer" class="branding" title="前往 Kuse.ai">
             <span>made with</span>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 92 48">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 92 48" aria-label="Kuse">
                 <path fill="currentColor" d="M28.098 24.577c0 6.736-4.023 8.78-10.226 9.377s-9.66-4.691-9.865-10.419C7.8 17.808 12.32 13.062 18.233 14.16s9.865 3.683 9.865 10.418"></path>
                 <path fill="currentColor" fill-rule="evenodd" d="m61.87 26.672-1.18 1.896c1.067 1.083 2.904 1.896 5.217 1.896 3.425 0 5.172-1.603 5.172-3.882 0-2.796-2.625-3.407-4.756-3.904l-.007-.001c-1.475-.339-2.7-.632-2.7-1.513 0-.902.908-1.534 2.246-1.534 1.293 0 2.79.496 3.743 1.422l1.202-1.761c-1.18-1.106-2.835-1.783-4.922-1.783-2.836 0-4.786 1.648-4.786 3.724 0 2.646 2.44 3.22 4.54 3.715l.042.01c1.542.36 2.88.677 2.88 1.738 0 .902-.77 1.67-2.586 1.67-1.7 0-3.243-.813-4.105-1.693M48.07 17.785v7.562c0 3.047 1.86 5.124 5.67 5.124 3.789 0 5.672-2.055 5.672-5.147v-7.539h-2.495v7.359c0 1.918-1.135 3.16-3.176 3.16-2.064 0-3.176-1.242-3.176-3.16v-7.359zM46.941 30.2h-3.017l-4.31-5.124-1.043 1.151V30.2h-2.472V17.785h2.472v5.666l4.945-5.666h3.017l-5.33 5.869zm25.214-6.216c0-3.584 2.634-6.476 6.328-6.476 3.745 0 6.147 2.841 6.147 6.732v.64h-9.634c.207 1.87 1.627 3.405 3.978 3.405 1.214 0 2.66-.486 3.538-1.357l1.24 1.767c-1.24 1.177-3.074 1.792-5.062 1.792-3.746 0-6.535-2.586-6.535-6.503m6.329-4.27c-2.325 0-3.384 1.767-3.513 3.278h7.026c-.052-1.46-1.06-3.277-3.513-3.277" clip-rule="evenodd"></path>
             </svg>
-        </div>
+        </a>
     </div>
 
     <script>
-        // 增強響應式體驗和無障礙功能
-        document.addEventListener(`DOMContentLoaded`, function() {
-            // Logo 載入錯誤處理
-            const logo = document.querySelector(`.logo`);
-            logo.addEventListener(`error`, function() {
-                this.style.display = `none`;
-                console.warn(`Logo 圖片載入失敗`);
+        document.addEventListener("DOMContentLoaded", function() {
+            // Logo fallback on error
+            var logo = document.querySelector(".logo");
+            logo.addEventListener("error", function() {
+                var fallback = document.createElement("div");
+                fallback.className = "logo-fallback";
+                fallback.setAttribute("aria-hidden", "true");
+                fallback.textContent = "\u597D";
+                logo.replaceWith(fallback);
             });
 
-            // iframe 載入狀態監控
-            const iframes = document.querySelectorAll(`iframe`);
-            iframes.forEach(iframe => {
-                iframe.addEventListener(`load`, function() {
-                    this.style.opacity = `1`;
+            // Hide loading overlay when iframe loads
+            var iframes = document.querySelectorAll("iframe");
+            iframes.forEach(function(iframe) {
+                iframe.addEventListener("load", function() {
+                    var loading = this.parentElement.querySelector(".iframe-loading");
+                    if (loading) loading.classList.add("hidden");
                 });
-                
-                iframe.addEventListener(`error`, function() {
-                    const container = this.parentElement;
-                    container.innerHTML = `<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text-secondary); font-size: 0.9rem;">載入中...</div>`;
+
+                iframe.addEventListener("error", function() {
+                    var loading = this.parentElement.querySelector(".iframe-loading");
+                    if (loading) loading.textContent = "\u8f09\u5165\u5931\u6557\uff0c\u8acb\u91cd\u65b0\u6574\u7406\u9801\u9762";
                 });
             });
 
-            // 視窗大小改變時的適應性調整
-            let resizeTimer;
-            window.addEventListener(`resize`, function() {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(function() {
-                    // 確保 iframe 在視窗大小改變時正確重新渲染
-                    iframes.forEach(iframe => {
-                        const src = iframe.src;
-                        iframe.src = ``;
-                        setTimeout(() => {
-                            iframe.src = src;
-                        }, 100);
-                    });
-                }, 500);
-            });
-
-            // 平滑滾動增強
-            document.documentElement.style.scrollBehavior = `smooth`;
-
-            // 鍵盤導航支援
-            document.addEventListener(`keydown`, function(e) {
-                if (e.key === `Tab`) {
-                    document.body.classList.add(`keyboard-navigation`);
+            // Keyboard navigation focus styles
+            document.addEventListener("keydown", function(e) {
+                if (e.key === "Tab") {
+                    document.body.classList.add("keyboard-navigation");
                 }
             });
 
-            document.addEventListener(`mousedown`, function() {
-                document.body.classList.remove(`keyboard-navigation`);
+            document.addEventListener("mousedown", function() {
+                document.body.classList.remove("keyboard-navigation");
             });
         });
-
-        // 效能優化：延遲載入非關鍵資源
-        if (`IntersectionObserver` in window) {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const iframe = entry.target;
-                        if (iframe.dataset.src) {
-                            iframe.src = iframe.dataset.src;
-                            iframe.removeAttribute(`data-src`);
-                            observer.unobserve(iframe);
-                        }
-                    }
-                });
-            });
-
-            // 如果頁面內容很多，可以啟用延遲載入
-            // document.querySelectorAll('iframe').forEach(iframe => observer.observe(iframe));
-        }
     </script>
 </body>
 </html>
