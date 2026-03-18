@@ -100,31 +100,35 @@
         }
 
         .logo {
-            width: 120px;
-            height: 120px;
-            border-radius: 10%;
-            margin: 0 auto 2rem;
+            max-width: 180px;
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 0 auto 1.5rem;
             display: block;
-            object-fit: cover;
+            object-fit: contain;
+            background-color: #fff;
+            padding: 8px;
             box-shadow: var(--shadow-light);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .logo:hover {
-            transform: scale(1.05);
+            transform: scale(1.03);
+            box-shadow: var(--shadow-hover);
         }
 
         .logo-fallback {
-            width: 120px;
-            height: 120px;
-            border-radius: 10%;
-            margin: 0 auto 2rem;
+            width: 180px;
+            height: 180px;
+            border-radius: 12px;
+            margin: 0 auto 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: var(--bg-secondary);
+            background-color: #fff;
             box-shadow: var(--shadow-light);
-            font-size: 2.5rem;
+            font-size: 3rem;
             color: var(--accent-color);
         }
 
@@ -212,15 +216,16 @@
                 padding: 1rem 0;
             }
 
-            .logo,
-            .logo-fallback {
-                width: 100px;
-                height: 100px;
-                margin-bottom: 1.5rem;
+            .logo {
+                max-width: 140px;
+                margin-bottom: 1rem;
             }
 
             .logo-fallback {
-                font-size: 2rem;
+                width: 140px;
+                height: 140px;
+                margin-bottom: 1rem;
+                font-size: 2.5rem;
             }
 
             .title {
@@ -264,7 +269,7 @@
     <div class="container">
         <!-- Header Section -->
         <header class="header">
-            <img src="https://imgur.com/925OqUB.png" alt="好好民宿 Logo" class="logo" width="120" height="120">
+            <img src="https://imgur.com/925OqUB.png" alt="好好民宿 Logo" class="logo">
             <h1 class="title">好好民宿</h1>
         </header>
 
